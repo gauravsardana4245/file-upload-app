@@ -4,9 +4,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-const File = require("./Models/File")
 const port = 5000;
-const connectToMongo = require("./db.js");
 app.use(cors());
 app.use(express.json());
 
@@ -31,7 +29,6 @@ app.post('/upload', upload.array('files'), async (req, res) => {
             fileSize: file.size,
             creationDate: fs.statSync(file.path).ctime,
         }));
-        const savedFiles = File.create({ uploadedFiles })
 
         res.json(uploadedFiles);
     } catch (error) {
@@ -67,4 +64,3 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-connectToMongo();
